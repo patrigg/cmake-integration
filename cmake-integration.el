@@ -122,6 +122,10 @@ in a directory local variable in your project."
 If \"${sourceDir}/\" is in `cmake-integration-docs-folder' it
 will be replaced by the project root." :type 'string :group 'cmake-integration)
 
+(defcustom cmake-integration-debugger "gdb"
+  "Debugger binary."
+  :type 'string :group 'cmake-integration)
+
 
 (defvar cmake-integration-current-target nil)
 (defvar cmake-integration-current-target-run-arguments "")
@@ -785,7 +789,7 @@ variable."
                ('build (cmake-integration-get-build-folder))
                ('bin (file-name-concat (cmake-integration-get-build-folder) (file-name-directory executable-filename)))
                (_ (file-name-concat (cmake-integration-get-project-root-folder) cmake-integration-run-working-directory)))))
-    (format "gdb -i=mi --cd=%s --args %s %s"
+    (format (concat cmake-integration-debugger " -i=mi --cd=%s --args %s %s")
             cwd
             (file-name-concat (cmake-integration-get-build-folder) executable-filename)
             cmake-integration-current-target-run-arguments)
